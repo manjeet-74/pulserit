@@ -2,20 +2,35 @@
 
 import ThemeToggle from "@/components/ThemeToggle";
 import Link from "next/link";
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
+import { For, HStack, Stack, Text } from "@chakra-ui/react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 const SignupPage = () => {
-  const [role, setRoloe] = useState("student");
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
     usn: "",
     club: "",
+    role: "student", // Default to "student" role
   });
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
+
+    // Basic validation
+    if (
+      !user.name ||
+      !user.email ||
+      !user.password ||
+      (user.role === "student" && !user.usn) ||
+      (user.role !== "student" && !user.club)
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
     try {
       const response = await fetch("/api/signup", {
         method: "POST",
@@ -25,15 +40,21 @@ const SignupPage = () => {
         body: JSON.stringify(user),
       });
 
-      if (response.ok) {
+      if (response.status === 201) {
         alert("User created successfully");
+        // Redirect to login page
       } else {
         alert("Failed to create user");
       }
     } catch (error) {
       console.error("Failed to create user", error);
+      alert("Something went wrong. Please try again later.");
     }
   };
+
+  // useEffect(() => {
+  //   console.log("User role changed to", user.role);
+  // }, [user.role]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center lg:justify-between bg-gray-50 lg:border-x-white dark:bg-gray-900 dark:text-white">
@@ -43,10 +64,22 @@ const SignupPage = () => {
         <h1 className="text-3xl text-black dark:text-white font-bold mb-6 text-center">
           Signup
         </h1>
-        <form
-          className="space-y-4"
-          onSubmit={handleSubmit}
-        >
+        <HStack align="flex-start">
+          <For each={["student", "coordinator", "admin"]}>
+            {(variant) => (
+              <Stack align="flex-start" flex="1" key={variant}>
+                <Text className="light:text-black">{variant}</Text>
+                <Checkbox
+                  checked={user.role === variant}
+                  onChange={() => setUser({ ...user, role: variant })}
+                >
+                  Checkbox
+                </Checkbox>
+              </Stack>
+            )}
+          </For>
+        </HStack>
+        <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Name Input */}
           <div>
             <label
@@ -101,8 +134,8 @@ const SignupPage = () => {
             />
           </div>
 
-          {/* Role Input */}
-          {(role === "student" || role === "admin") && (
+          {/* USN Input (Only for student/admin) */}
+          {(user.role === "student" || user.role === "admin") && (
             <div>
               <label
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -111,7 +144,7 @@ const SignupPage = () => {
                 USN
               </label>
               <input
-                type="string"
+                type="text"
                 id="usn"
                 value={user.usn}
                 onChange={(e) => setUser({ ...user, usn: e.target.value })}
@@ -121,7 +154,8 @@ const SignupPage = () => {
             </div>
           )}
 
-          {(role === "teacher" || role === "admin") && (
+          {/* Club Input (Only for teacher/admin) */}
+          {(user.role === "coordinator" || user.role === "admin") && (
             <div>
               <label
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -130,7 +164,7 @@ const SignupPage = () => {
                 Club Name
               </label>
               <input
-                type="string"
+                type="text"
                 id="club"
                 value={user.club}
                 onChange={(e) => setUser({ ...user, club: e.target.value })}
