@@ -5,18 +5,16 @@ import { NextRequest, NextResponse } from "next/server";
 
 const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 
-// Ensure the database is connected
 connectDB();
 
 export async function POST(req: NextRequest) {
   try {
-    const url = new URL(req.url); // Parse the request URL
-    const reqBody = await req.json(); // Parse the JSON body
+    const url = new URL(req.url); 
+    const reqBody = await req.json(); 
 
     if (url.pathname.endsWith("/signup")) {
       const { name, email, password, role } = reqBody;
 
-      // Check if the user already exists
       const existingUser = await UserBase.findOne({ email });
       if (existingUser) {
         return NextResponse.json(
@@ -25,11 +23,9 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      // Create and save a new user
       const newUser = new UserBase({ name, email, password, role });
       await newUser.save();
 
-      // Generate a JWT token
       const token = jwt.sign(
         { id: newUser._id, role: newUser.role },
         JWT_SECRET,
@@ -45,13 +41,11 @@ export async function POST(req: NextRequest) {
     if (url.pathname.endsWith("/login")) {
       const { email, password } = reqBody;
 
-      // Find user by email
       const user = await UserBase.findOne({ email });
       if (!user) {
         return NextResponse.json({ message: "User not found" }, { status: 404 });
       }
 
-      // Check password
       if (user.password !== password) {
         return NextResponse.json(
           { message: "Invalid credentials" },
@@ -59,8 +53,7 @@ export async function POST(req: NextRequest) {
         );
       }
 
-      // Generate a JWT token
-      const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
+                const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
         expiresIn: "1h",
       });
 
@@ -77,7 +70,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // If no matching route, return a 404
     return NextResponse.json(
       { message: "Route not found" },
       { status: 404 }

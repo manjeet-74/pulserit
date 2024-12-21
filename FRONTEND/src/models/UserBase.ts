@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 export interface IUserBase extends Document {
   name: string;
   email: string;
-  password: string; // Hashed password
+  password: string; 
   role: "student" | "admin" | "coordinator";
   
 }
@@ -15,7 +15,7 @@ const UserBaseSchema: Schema = new Schema(
     password: { type: String, required: true },
     role: { type: String, required: true, enum: ["student", "admin", "coordinator"] },
   },
-  { discriminatorKey: "role" } // Differentiates between user types
+  { discriminatorKey: "role" } 
 );
 
 const UserBase = mongoose.model<IUserBase>("UserBase", UserBaseSchema);

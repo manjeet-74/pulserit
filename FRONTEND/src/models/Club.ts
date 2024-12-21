@@ -6,7 +6,7 @@ export interface IClub extends Document {
   socialMediaLinks: string[]; 
   websiteLink: string; 
   logo: string; 
-  creator: mongoose.Types.ObjectId; 
+  creator: string ;
   createdAt: Date; 
 }
 
@@ -17,12 +17,12 @@ const ClubSchema: Schema = new Schema(
     socialMediaLinks: [{ type: String }], 
     websiteLink: { type: String }, 
     logo: { type: String }, 
-    creator: { type: mongoose.Schema.Types.ObjectId, ref: "UserBase", required: true }, // References UserBase (Admin or Coordinator)
+    creator: { type: String, ref: "UserBase",  }, // References UserBase (Admin or Coordinator)
     createdAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );
 
-const Club = mongoose.model<IClub>("Club", ClubSchema);
+const Club = mongoose.models.Club || mongoose.model("Club", ClubSchema);
 
 export default Club;

@@ -13,6 +13,7 @@ export async function connectDB() {
 
   try {
     const db = await mongoose.connect(process.env.MONGO_URL! );
+
     isConnected = db.connections[0].readyState === 1; // 1 = connected
 
     const connection = mongoose.connection;
