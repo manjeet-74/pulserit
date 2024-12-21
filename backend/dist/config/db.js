@@ -25,7 +25,7 @@ function connectDB() {
             return;
         }
         try {
-            const db = yield mongoose_1.default.connect("mongodb+srv://zainal2004abidin:zainop23@rit-pulse.q3hlp.mongodb.net/pulserit");
+            const db = yield mongoose_1.default.connect(process.env.MONGO_URL);
             isConnected = db.connections[0].readyState === 1; // 1 = connected
             const connection = mongoose_1.default.connection;
             connection.on("connected", () => {
