@@ -5,7 +5,7 @@ import Club from "@/models/Club";
 export async function GET(){
     try{
         await connectDB();
-        const clubs= Club.find({});
+        const clubs= await Club.find({}).lean();
         return NextResponse.json(clubs, {status: 200})
     }
     catch(e){
