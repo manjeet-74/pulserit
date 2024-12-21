@@ -2,50 +2,27 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
-import { useRouter } from "next/router";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const LoginPage = () => {
-  // const Router = useRouter();
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
 
-  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const response = await fetch("/api/login", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(user),
-  //     });
-
-  //     if (response.ok) {
-  //       alert("Login successful");
-  //       Router.push("/dashboard");
-  //     } else {
-  //       alert("Login failed");
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2 lg:border-x-white">
+    <div className="min-h-screen flex flex-col items-center justify-center lg:justify-between bg-gray-50 lg:border-x-white dark:bg-gray-900 dark:text-white">
+      <ThemeToggle />
       {/* Form Section */}
-      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8 m-4 lg:m-16">
-        <h1 className="text-3xl text-black font-bold mb-6 text-center">
+      <div className="w-full max-w-md bg-white dark:bg-gray-800 shadow-md rounded-lg p-8 m-4 lg:m-16">
+        <h1 className="text-3xl text-black dark:text-white font-bold mb-6 text-center">
           Welcome to PULSERIT
         </h1>
         <form className="space-y-4">
           {/* Email Input */}
           <div>
             <label
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               htmlFor="email"
             >
               Email address
@@ -56,14 +33,14 @@ const LoginPage = () => {
               value={user.email}
               onChange={(e) => setUser({ ...user, email: e.target.value })}
               placeholder="Enter your email"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
             />
           </div>
 
           {/* Password Input */}
           <div>
             <label
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               htmlFor="password"
             >
               Password
@@ -74,7 +51,7 @@ const LoginPage = () => {
               value={user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
               placeholder="Enter your password"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
             />
           </div>
 
@@ -88,7 +65,7 @@ const LoginPage = () => {
         </form>
 
         {/* Sign In Link */}
-        <p className="mt-4 text-center text-sm text-gray-500">
+        <p className="mt-4 text-center text-sm text-gray-500 dark:text-gray-400">
           Don't have an account?{" "}
           <Link href="/signup" className="text-blue-600 hover:underline">
             Signup
