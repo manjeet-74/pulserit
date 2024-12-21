@@ -1,19 +1,60 @@
+"use client";
+
 import Link from "next/link";
+import React, { useState } from "react";
+import { useRouter } from "next/router";
 
 const LoginPage = () => {
+  // const Router = useRouter();
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
+
+  // const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const response = await fetch("/api/login", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(user),
+  //     });
+
+  //     if (response.ok) {
+  //       alert("Login successful");
+  //       Router.push("/dashboard");
+  //     } else {
+  //       alert("Login failed");
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 lg:border-x-white">
       {/* Form Section */}
       <div className="w-full max-w-md bg-white shadow-md rounded-lg p-8 m-4 lg:m-16">
-        <h1 className="text-3xl font-bold mb-6 text-center">Get Started Now</h1>
+        <h1 className="text-3xl text-black font-bold mb-6 text-center">
+          Welcome to PULSERIT
+        </h1>
         <form className="space-y-4">
           {/* Email Input */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="email"
+            >
               Email address
             </label>
             <input
               type="email"
+              id="email"
+              value={user.email}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
               placeholder="Enter your email"
               className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
@@ -21,11 +62,17 @@ const LoginPage = () => {
 
           {/* Password Input */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label
+              className="block text-sm font-medium text-gray-700"
+              htmlFor="password"
+            >
               Password
             </label>
             <input
               type="password"
+              id="password"
+              value={user.password}
+              onChange={(e) => setUser({ ...user, password: e.target.value })}
               placeholder="Enter your password"
               className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             />

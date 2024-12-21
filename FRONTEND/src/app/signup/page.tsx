@@ -1,33 +1,38 @@
+"use client";
+
 import Link from "next/link";
 import { useState, FormEvent } from "react";
 
 const SignupPage = () => {
+  const [role, setRoloe] = useState("student");
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
+    usn: "",
+    club: "",
   });
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+  // const handleSubmit = async (e: FormEvent) => {
+  //   e.preventDefault();
+  //   try {
+  //     const response = await fetch("/api/signup", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(user),
+  //     });
 
-      if (response.ok) {
-        alert("User created successfully");
-      } else {
-        alert("Failed to create user");
-      }
-    } catch (error) {
-      console.error("Failed to create user", error);
-    }
-  };
+  //     if (response.ok) {
+  //       alert("User created successfully");
+  //     } else {
+  //       alert("Failed to create user");
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to create user", error);
+  //   }
+  // };
 
   return (
     <div
@@ -39,8 +44,14 @@ const SignupPage = () => {
         className="w-full max-w-md bg-white shadow-md rounded-lg p-8 
       m-4 lg:m-16"
       >
-        <h1 className="text-3xl font-bold mb-6 text-center">Get Started Now</h1>
-        <form className="space-y-4">
+        <h1 className="text-3xl text-black font-bold mb-6 text-center">
+          Signup
+        </h1>
+        ``
+        <form
+          className="space-y-4"
+          // onSubmit={handleSubmit}
+        >
           {/* Name Input */}
           <div>
             <label
@@ -98,6 +109,47 @@ const SignupPage = () => {
             />
           </div>
 
+          {/* Role Input */}
+          {(role === "student" || role === "admin") && (
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="usn"
+              >
+                USN
+              </label>
+              <input
+                type="string"
+                id="usn"
+                value={user.usn}
+                onChange={(e) => setUser({ ...user, usn: e.target.value })}
+                placeholder="Enter your USN"
+                className="w-full border border-gray-300 rounded-md px-4 
+              py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+          )}
+
+          {(role === "teacher" || role === "admin") && (
+            <div>
+              <label
+                className="block text-sm font-medium text-gray-700"
+                htmlFor="club"
+              >
+                Club Name
+              </label>
+              <input
+                type="string"
+                id="club"
+                value={user.club}
+                onChange={(e) => setUser({ ...user, club: e.target.value })}
+                placeholder="Club Name"
+                className="w-full border border-gray-300 rounded-md px-4 
+              py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+          )}
+
           {/* Terms and Conditions */}
           <div className="flex items-start">
             <input
@@ -123,7 +175,6 @@ const SignupPage = () => {
             Sign Up
           </button>
         </form>
-
         {/* Sign In Link */}
         <p className="mt-4 text-center text-sm text-gray-500">
           Have an account?{" "}
