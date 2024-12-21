@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
     const reqBody = await req.json(); 
 
     if (url.pathname.endsWith("/signup")) {
-      const { name, email, password, role } = reqBody;
+      const { name, email, password, role} = reqBody;
 
       const existingUser = await UserBase.findOne({ email });
       if (existingUser) {

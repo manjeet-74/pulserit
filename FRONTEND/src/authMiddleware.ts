@@ -5,13 +5,12 @@ interface AuthenticatedUser {
   user: jwt.JwtPayload & { role?: string };
 }
 
-// Middleware for authentication
 export async function authenticate(req: NextRequest): Promise<NextResponse | AuthenticatedUser> {
   const authorizationHeader = req.headers.get("Authorization");
   const token = authorizationHeader?.split(" ")[1];
 
   if (!token) {
-    return NextResponse.json({ msg: "unauthorized" }, { status: 401 });
+    return NextResponse.json({ message: "Unauthorized: No token provided" }, { status: 401 });
   }
 
   try {
@@ -22,43 +21,39 @@ export async function authenticate(req: NextRequest): Promise<NextResponse | Aut
     return { user: decoded };
   } catch (error) {
     return NextResponse.json(
-      { msg: error },
+      { message: "Unauthorized: Invalid or expired token" },
       { status: 401 }
     );
   }
 }
 
-// Middleware for role-based authorization
-export async function isAdminOrCoordinator(user: jwt.JwtPayload & { role?: string }): Promise<NextResponse | void> {
+export async function isAdminOrCoordinator(user: jwt.JwtPayload & { role?: string }): Promise<void | NextResponse> {
   const { role } = user;
 
-  if (role === "admin" || role === "coordinator") {
-    return; // Allow the request to proceed
+  if (user.role === "admin" || role === "coordinator") {
+    return; 
   } else {
-    return NextResponse.json({ message: "Permission denied" }, { status: 403 });
+    return NextResponse.json({ message: "Permission denied: Insufficient privileges" }, { status: 403 });
   }
 }
 
-// Example middleware combining authentication and authorization
 export async function middleware(req: NextRequest) {
-  // Authenticate the user
   const authResponse = await authenticate(req);
   if (authResponse instanceof NextResponse) {
-    return authResponse; // Return error response if authentication fails
+    return authResponse; 
   }
 
-  const { user } = authResponse;  // Extract user from authentication response
+  const { user } = authResponse; 
 
-  // Check role-based access
   const roleResponse = await isAdminOrCoordinator(user);
   if (roleResponse instanceof NextResponse) {
-    return roleResponse; // Return error response if authorization fails
+    return roleResponse; 
   }
 
-  return NextResponse.next(); // Proceed to the requested route
+  return NextResponse.next(); 
 }
 
-// Define the paths where this middleware applies
+
 export const config = {
-  matcher: ["/api/protected-route/:path*"], // Apply to specific routes
+  matcher: ["/api/clubs/:path*", "/api/posts/:path*", "/api/events/:path*"], // Add more routes if necessary
 };
