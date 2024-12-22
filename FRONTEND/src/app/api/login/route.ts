@@ -1,7 +1,7 @@
-import { NextResponse } from 'next/server';
-import jwt from 'jsonwebtoken';
-import User from '@/models/UserBase';
-import {connectDB} from '@/config/db';
+import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
+import User from "@/models/UserBase";
+import { connectDB } from "@/config/db";
 
 export async function POST(request: Request) {
   try {
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
 
     if (!email || !password) {
       return NextResponse.json(
-        { message: 'Email and password are required' },
+        { message: "Email and password are required" },
         { status: 400 }
       );
     }
@@ -19,14 +19,14 @@ export async function POST(request: Request) {
     const user = await User.findOne({ email });
     if (!user) {
       return NextResponse.json(
-        { message: 'Invalid email or password' },
+        { message: "Invalid email or password" },
         { status: 401 }
       );
     }
 
     if (user.password !== password) {
       return NextResponse.json(
-        { message: 'Invalid email or password' },
+        { message: "Invalid email or password" },
         { status: 401 }
       );
     }
@@ -34,22 +34,25 @@ export async function POST(request: Request) {
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET as string,
-      { expiresIn: '1h' }
+      { expiresIn: "1h" }
     );
 
-    return NextResponse.json({
-      message: 'Login successful',
-      token,
-      user: {
-        id: user._id,
-        email: user.email,
-        role: user.role,
+    return NextResponse.json(
+      {
+        message: "Login successful",
+        token,
+        user: {
+          id: user._id,
+          email: user.email,
+          role: user.role,
+        },
       },
-    });
+      { status: 200 }
+    );
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { message: 'Internal Server Error' },
+      { message: "Internal Server Error" },
       { status: 500 }
     );
   }

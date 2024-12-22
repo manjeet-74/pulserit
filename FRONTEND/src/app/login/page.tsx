@@ -3,12 +3,41 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
+import { NextResponse } from "next/server";
+
+
 
 const LoginPage = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    console.log(user);
+
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+
+      if (response.status === 200) {
+        const data = await response.json();
+        console.log(data);
+        console.log("Login successful");
+        return NextResponse.redirect("http://localhost:3000/chat");
+      } else {
+        console.error("Login failed");
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+    }
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center lg:justify-between bg-gray-50 lg:border-x-white dark:bg-gray-900 dark:text-white">
@@ -18,7 +47,7 @@ const LoginPage = () => {
         <h1 className="text-3xl text-black dark:text-white font-bold mb-6 text-center">
           Welcome to PULSERIT
         </h1>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Email Input */}
           <div>
             <label
