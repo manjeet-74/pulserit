@@ -30,7 +30,7 @@ const LoginPage = () => {
         const data = await response.json();
         console.log(data);
         console.log("Login successful");
-        return NextResponse.redirect("http://localhost:3000/chat");
+        alert("Login successful");
       } else {
         console.error("Login failed");
       }
