@@ -22,6 +22,17 @@ const EventSchema: Schema = new Schema(
   { timestamps: true } 
 );
 
-const Event = mongoose.model<IEvent>("Event", EventSchema);
+const Event = mongoose.models.Event || mongoose.model("Event", EventSchema);
 
 export default Event;
+
+/* {
+    
+    "title": "asd",
+    "description": "asd",
+    "date":"2024-01-01",
+    "venue": "rit",
+    "club":"6766daaf279cf426e67c805e",
+    "createdBy":"6766c969e78169a90570f794"
+
+}*/
