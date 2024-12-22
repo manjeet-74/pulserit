@@ -52,6 +52,13 @@
 //     ) =>{
 //         return (
 //             <label
+//             className={`flex ${className} items-center justify-center sm:px-5 cursor-text text-[18px] border border-solid rounded-[14px] 
+//   ${shape ? shapes[shape] : ""} 
+//   ${variant && variants[variant]?.[color as keyof (typeof variants)[typeof variant]] 
+//     ? variants[variant][color as keyof (typeof variants)[typeof variant]] 
+//     : ""} 
+//   ${size ? sizes[size] : ""}`}
+
 //         )
 //     }
 // )
