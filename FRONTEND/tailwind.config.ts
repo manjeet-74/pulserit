@@ -12,6 +12,11 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        grey: "#F3F3F3",
+        dark: "#191A23",
+      },
+      fontFamily: {
+        "space-grotesk": ['"Space Grotesk"', "sans-serif"],
       },
     },
   },
