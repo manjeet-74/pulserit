@@ -51,7 +51,7 @@ export default function Example() {
                 </div>
             </div>
             <div className=" py-32 bg-white ">
-                <div className='text-black bg-green-400 h-20 flex 
+                <div className='text-black bg-pulserit_color h-20 flex 
                     justify-center items-center'>
                     <h1 className='text-6xl font-bold'>PulseRIT</h1>
                 </div>
