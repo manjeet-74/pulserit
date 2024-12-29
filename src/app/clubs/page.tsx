@@ -7,10 +7,11 @@ import CaseStudyCard from "@/components/CaseStudyCard";
 import { WorkProcessBox } from "@/components/WorkProcessBox";
 import { Box, Button } from "@chakra-ui/react";
 import Testimonials from "@/components/Testismonial";
+import ContactUs from "@/components/ContactUs";
 
 export default function Clubs() {
     return (
-        <div className=" bg-white">
+        <div className=" bg-white p-4">
             <Header />
             <Banner />
             <hr />
@@ -84,6 +85,16 @@ export default function Clubs() {
                 <p className="text-black font-aptos w-1/2">Hear from Our Satisfied Clients:
                     Read Our Testimonials to Learn More about Our Digital Marketing Services</p>
             </div>
+            <Testimonials />
+
+            {/* Contatct Us  */}
+            <div className="flex space-x-6 flex-start items-center mx-4 mt-4">
+                <h1 className="bg-pulserit_color text-black text-3xl 
+                    rounded-xl px-4 font-aptos">Contatc Us</h1>
+                <p className="text-black font-aptos w-1/2">Connect with
+                    Us: Let's Discuss Your Digital Marketing Needs</p>
+            </div>
+            <ContactUs />
 
         </div>
     );
