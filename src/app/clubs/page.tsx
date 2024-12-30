@@ -8,6 +8,7 @@ import { WorkProcessBox } from "@/components/WorkProcessBox";
 import { Box, Button } from "@chakra-ui/react";
 import Testimonials from "@/components/Testismonial";
 import ContactUs from "@/components/ContactUs";
+import Footer from "@/components/Footer";
 
 export default function Clubs() {
     return (
@@ -75,7 +76,7 @@ export default function Clubs() {
             </div>
             <div className="flex justify-end text-black p-4">
                 <Button className="bg-black text-white 
-            p-4 rounded-xl">Ghost</Button>
+            p-4 rounded-xl">See all team</Button>
             </div>
 
             {/* Testimonial  */}
@@ -95,6 +96,7 @@ export default function Clubs() {
                     Us: Let's Discuss Your Digital Marketing Needs</p>
             </div>
             <ContactUs />
+            <Footer />
 
         </div>
     );
