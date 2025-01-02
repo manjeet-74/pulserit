@@ -4,10 +4,14 @@ import Link from "next/link";
 import React, { useState } from "react";
 import ThemeToggle from "@/components/ThemeToggle";
 import { NextResponse } from "next/server";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 
 
 const LoginPage = () => {
+  const Router = useRouter();
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -18,24 +22,23 @@ const LoginPage = () => {
     console.log(user);
 
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
-      });
+      console.log("Calling api....");
+      
+      const response = await axios.post("/api/login", user);
+      console.log("Api called successfully");
+      
 
       if (response.status === 200) {
-        const data = await response.json();
+        const data = await response.data;
         console.log(data);
         console.log("Login successful");
+        Router.push("/clubs");
         alert("Login successful");
       } else {
         console.error("Login failed");
       }
     } catch (error) {
-      console.error("Login failed", error);
+      console.log("Login failed", error);
     }
   }
 

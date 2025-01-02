@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
-dotenv.config({path: "../../.env.local"});
-console.log("MONGO_URL:", process.env.MONGO_URL);
+dotenv.config();
+
 let isConnected = false; // Track connection status
 
 export async function connectDB() {
@@ -12,8 +12,7 @@ export async function connectDB() {
   }
 
   try {
-    const db = await mongoose.connect(process.env.MONGO_URL! );
-
+    const db = await mongoose.connect(process.env.MONGO_URL!);
     isConnected = db.connections[0].readyState === 1; // 1 = connected
 
     const connection = mongoose.connection;

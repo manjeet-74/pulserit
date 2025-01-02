@@ -9,71 +9,33 @@ connectDB();
 
 export async function POST(req: NextRequest) {
   try {
-    const url = new URL(req.url); 
-    const reqBody = await req.json(); 
+    const reqBody = await req.json();
+    const { name, email, password, role } = reqBody;
+    console.log(reqBody);
 
-    if (url.pathname.endsWith("/signup")) {
-      const { name, email, password, role} = reqBody;
-
-      const existingUser = await UserBase.findOne({ email });
-      if (existingUser) {
-        return NextResponse.json(
-          { message: "User already exists" },
-          { status: 400 }
-        );
-      }
-
-      const newUser = new UserBase({ name, email, password, role });
-      await newUser.save();
-
-      const token = jwt.sign(
-        { id: newUser._id, role: newUser.role },
-        JWT_SECRET,
-        { expiresIn: "1h" }
-      );
-
+    const existingUser = await UserBase.findOne({ email });
+    if (existingUser) {
       return NextResponse.json(
-        { message: "User created successfully", token },
-        { status: 201 }
+        { message: "User already exists" },
+        { status: 400 }
       );
     }
 
-    if (url.pathname.endsWith("/login")) {
-      const { email, password } = reqBody;
+    const newUser = new UserBase({ name, email, password, role });
+    await newUser.save();
 
-      const user = await UserBase.findOne({ email });
-      if (!user) {
-        return NextResponse.json({ message: "User not found" }, { status: 404 });
-      }
-
-      if (user.password !== password) {
-        return NextResponse.json(
-          { message: "Invalid credentials" },
-          { status: 401 }
-        );
-      }
-
-                const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
-        expiresIn: "1h",
-      });
-
-      return NextResponse.json(
-        { message: "Login successful", token },
-        { status: 200 }
-      );
-    }
-
-    if (url.pathname.endsWith("/logout")) {
-      return NextResponse.json(
-        { message: "User logged out successfully" },
-        { status: 200 }
-      );
-    }
+    const token = jwt.sign(
+      { id: newUser._id, role: newUser.role },
+      JWT_SECRET,
+      { expiresIn: "1h" }
+    );
 
     return NextResponse.json(
-      { message: "Route not found" },
-      { status: 404 }
+      { message: "User created successfully", token },
+      { status: 201 }
     );
+
+    return NextResponse.json({ message: "Route not found" }, { status: 404 });
   } catch (error: any) {
     console.error("Error:", error);
     return NextResponse.json(

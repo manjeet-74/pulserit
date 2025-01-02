@@ -17,6 +17,7 @@
     "@headlessui/react": "^2.2.0",
     "@heroicons/react": "^2.2.0",
     "@radix-ui/react-collapsible": "^1.1.2",
+    "axios": "^1.7.9",
     "chakra": "^0.0.3",
     "dotenv": "^16.4.7",
     "jsonwebtoken": "^9.0.2",

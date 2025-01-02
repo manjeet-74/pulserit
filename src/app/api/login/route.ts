@@ -6,7 +6,7 @@ import { connectDB } from "@/config/db";
 export async function POST(request: Request) {
   try {
     await connectDB();
-
+    
     const { email, password } = await request.json();
 
     if (!email || !password) {
