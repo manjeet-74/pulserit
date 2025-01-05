@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/config/db";
 import Club from "@/models/Club";
-import { authenticate, isAdminOrCoordinator } from "@/authMiddleware";
+import { authenticate, isAdminOrCoordinator } from "@/middleware";
 
 export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
     const authResponse = await authenticate(request);

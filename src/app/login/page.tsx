@@ -21,13 +21,9 @@ const LoginPage = () => {
     e.preventDefault();
     console.log(user);
 
-    try {
-      console.log("Calling api....");
-      
+    try {      
       const response = await axios.post("/api/login", user);
-      console.log("Api called successfully");
       
-
       if (response.status === 200) {
         const data = await response.data;
         console.log(data);

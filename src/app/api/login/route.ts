@@ -1,12 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import User from "@/models/UserBase";
 import { connectDB } from "@/config/db";
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     await connectDB();
-    
+
     const { email, password } = await request.json();
 
     if (!email || !password) {
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
       { expiresIn: "1h" }
     );
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       {
         message: "Login successful",
         token,
@@ -46,9 +46,16 @@ export async function POST(request: Request) {
           email: user.email,
           role: user.role,
         },
+        success: true,
       },
       { status: 200 }
     );
+
+    response.cookies.set("token", token, {
+      httpOnly: true,
+    });
+
+    return response;
   } catch (error) {
     console.error(error);
     return NextResponse.json(

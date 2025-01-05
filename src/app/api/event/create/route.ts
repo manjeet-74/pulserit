@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/config/db";
 import Event from "@/models/Event";
-import { authenticate, isAdminOrCoordinator } from "@/authMiddleware";
+import { authenticate, isAdminOrCoordinator } from "@/middleware";
 
 export async function POST(req: NextRequest) {
     console.log("POST request received.");
