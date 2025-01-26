@@ -1,12 +1,19 @@
-export default function Card() {
+interface CardProps {
+    clubName: string;
+    description: string;
+    image: string; // New property for the image URL
+}
+
+export default function Card({ clubName, description, image }: CardProps) {
     return (
         <div className="bg-white max-w-sm overflow-hidden shadow-lg rounded-3xl">
+            <img src={image} alt={clubName} className="w-full h-48 object-cover rounded-t-3xl" />
             <div className="px-6 py-4">
                 <div className="text-black font-bold text-xl mb-2 rounded-xl bg-pulserit_color px-4">
-                    CardName
+                    {clubName}
                 </div>
                 <p className="text-gray-700 text-base">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
+                    {description}
                 </p>
             </div>
             <div className="px-6 pt-4 pb-2">

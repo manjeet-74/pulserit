@@ -19,7 +19,7 @@ export async function authenticate(
   try {
     const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     const { payload } = await jwtVerify(token, secret);
-    console.log("Token decoded successfully:", payload);
+    // console.log("Token decoded successfully:", payload);
     const decoded = payload as { [key: string]: any; role: string };
     return { user: decoded };
   } catch (error) {

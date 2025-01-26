@@ -18,12 +18,29 @@ export default function Clubs() {
         email: "s@g.c",
         role: "admin"
     });
+    const [clubs, setClubs] = useState([
+        {
+            _id: "1",
+            name: "Club1",
+            description: "This is a club1",
+            logo: "fsakdjl"
+        }
+    ]);
+
+    const getClubs = async () => {
+        try {
+            const res = await axios.get("/api/clubs");
+            console.log(res)
+            setClubs(res.data.data);
+        } catch (error: any) {
+            console.log("~~~~~~~~~~~~~~ Error ~~~~~~~~~~~~~~");
+            console.log(error.message);
+        }
+    }
 
     const getUserDetails = async () => {
         try {
-            console.log("Call to /api/user");
             const res = await axios.get("/api/user");
-            console.log(res.data);
             setUser(res.data.data);
         } catch (error: any) {
             console.log("~~~~~~~~~~~~~~ Error ~~~~~~~~~~~~~~");
@@ -33,6 +50,7 @@ export default function Clubs() {
 
     useEffect(() => {
         getUserDetails();
+        getClubs();
     }, []);
 
     return (
@@ -44,11 +62,19 @@ export default function Clubs() {
             <div className="flex flex-col items-center text-black">
                 <h1 className="text-black my-4 mb-4 text-4xl">List of clubs</h1>
                 <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
-                    <Card />
+                    {/* Render club cards dynamically */}
+                    {clubs.length > 0 ? (
+                        clubs.map((club) => (
+                            <Card
+                                key={club._id}
+                                clubName={club.name}
+                                description={club.description}
+                                image={club.logo}
+                            />
+                        ))
+                    ) : (
+                        <p>Loading clubs...</p>
+                    )}
                 </div>
             </div>
             <hr />
