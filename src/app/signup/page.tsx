@@ -6,8 +6,10 @@ import { useState, FormEvent, useEffect } from "react";
 import { For, HStack, Stack, Text } from "@chakra-ui/react";
 import { Checkbox } from "@/components/ui/checkbox";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 const SignupPage = () => {
+  const router = useRouter();
   const [user, setUser] = useState({
     name: "",
     email: "",
@@ -20,15 +22,20 @@ const SignupPage = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    // Basic validation
-    if (
-      !user.name ||
-      !user.email ||
-      !user.password ||
-      (user.role === "student" && !user.usn) ||
-      (user.role !== "student" && !user.club)
-    ) {
-      alert("Please fill in all required fields.");
+    const { name, email, password, usn, club, role } = user;
+
+    if (!name || !email || !password) {
+      alert("Name, email, and password are required.");
+      return;
+    }
+
+    if (role === "student" && !usn) {
+      alert("USN is required for students.");
+      return;
+    }
+
+    if (role !== "student" && !club) {
+      alert("Club name is required for coordinators and admins.");
       return;
     }
 
@@ -37,14 +44,14 @@ const SignupPage = () => {
 
       if (response.status === 201) {
         alert("User created successfully");
-        // Redirect to login page
-        window.location.href = "/clubs";
+        router.push("/login");
       } else {
         alert("Failed to create user");
       }
-    } catch (error) {
-      console.error("Failed to create user", error);
-      alert("Something went wrong. Please try again later.");
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || "Something went wrong. Please try again.";
+      alert(errorMessage);
     }
   };
 
@@ -62,6 +69,7 @@ const SignupPage = () => {
       });
   }, []);
 
+
   return (
     <>
       <div className="min-h-screen flex flex-col items-center justify-center lg:justify-between bg-gray-50 lg:border-x-white dark:bg-gray-900 dark:text-white">
@@ -71,7 +79,52 @@ const SignupPage = () => {
           <h1 className="text-3xl text-black dark:text-white font-bold mb-6 text-center">
             Signup
           </h1>
-          <HStack align="flex-start">
+          {/* radio for user role */}
+          <div className="my-6 space-x-6 flex justify-center">
+            <div className="flex items-center gap-x-3">
+              <input
+                id="push-everything"
+                name="push-notifications"
+                type="radio"
+                value="student"
+                checked={user.role === "student"}
+                onChange={() => setUser({ ...user, role: "student" })}
+                className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
+              />
+              <label htmlFor="push-everything" className="block text-sm/6 font-medium text-white">
+                Student
+              </label>
+            </div>
+            <div className="flex items-center gap-x-3">
+              <input
+                id="push-email"
+                name="push-notifications"
+                type="radio"
+                value="coordinator"
+                checked={user.role === "coordinator"}
+                onChange={() => setUser({ ...user, role: "coordinator" })}
+                className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
+              />
+              <label htmlFor="push-email" className="block text-sm/6 font-medium text-white">
+                coordinator
+              </label>
+            </div>
+            <div className="flex items-center gap-x-3">
+              <input
+                id="push-nothing"
+                name="push-notifications"
+                type="radio"
+                value="admin"
+                checked={user.role === "admin"}
+                onChange={() => setUser({ ...user, role: "admin" })}
+                className="relative size-4 appearance-none rounded-full border border-gray-300 bg-white before:absolute before:inset-1 before:rounded-full before:bg-white checked:border-indigo-600 checked:bg-indigo-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:before:bg-gray-400 forced-colors:appearance-auto forced-colors:before:hidden [&:not(:checked)]:before:hidden"
+              />
+              <label htmlFor="push-nothing" className="block text-sm/6 font-medium text-white">
+                admin
+              </label>
+            </div>
+          </div>
+          {/* <HStack align="flex-start">
             <For each={["student", "coordinator", "admin"]}>
               {(variant) => (
                 <Stack align="flex-start" flex="1" key={variant}>
@@ -84,7 +137,7 @@ const SignupPage = () => {
                 </Stack>
               )}
             </For>
-          </HStack>
+          </HStack> */}
           <form className="space-y-4" onSubmit={handleSubmit}>
             {/* Name Input */}
             <div>

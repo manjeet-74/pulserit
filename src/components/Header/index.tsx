@@ -119,6 +119,9 @@ export default function Example() {
           </a>
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end space-x-6">
+          <Link href="/clubs/create" className="text-sm/6 font-semibold text-gray-900">
+            Add a club <span aria-hidden="true">&rarr;</span>
+          </Link>
           <div onClick={handleLogout}
             className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
           >

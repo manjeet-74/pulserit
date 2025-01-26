@@ -1,23 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
 
-export async function GET(req: NextRequest) {
+export const getDataFromToken = (req: NextRequest) => {
   try {
-    const res = NextResponse.json({
-      message: "Logged out successfully",
-      status: 200,
-      redirect: "/login",
-    });
-    res.cookies.set("token", "", {
-      httpOnly: true,
-      expires: new Date(0),
-    });
-
-    return res;
+    const token = req.cookies.get("token")?.value || "";
+    const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET!);
+    return decodedToken.id;
   } catch (error: unknown) {
     if (error instanceof Error) {
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
-
     return NextResponse.json({ error: "An error occured!" }, { status: 500 });
   }
-}
+};

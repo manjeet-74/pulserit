@@ -1,79 +1,80 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { jwtVerify } from "jose";
 
-// interface AuthenticatedUser {
-//   user: jwt.JwtPayload & { role?: string };
-// }
+interface AuthenticatedUser {
+  user: { [key: string]: any; role: string };
+}
 
-// export async function authenticate(
-//   req: NextRequest
-// ): Promise<NextResponse | AuthenticatedUser> {
-//   const authorizationHeader = req.headers.get("Authorization");
-//   const token = authorizationHeader?.split(" ")[1];
+// Authenticate the user by verifying the JWT token
+export async function authenticate(
+  req: NextRequest
+): Promise<AuthenticatedUser | null> {
+  const token = req.cookies.get("token")?.value || "";
 
-//   if (!token) {
-//     console.log("No token provided.");
-//     return NextResponse.json(
-//       { message: "Unauthorized: No token provided" },
-//       { status: 401 }
-//     );
-//   }
+  if (!token) {
+    console.log("No token provided.");
+    return null;
+  }
 
-//   try {
-//     const decoded = jwt.verify(
-//       token,
-//       process.env.JWT_SECRET as string
-//     ) as jwt.JwtPayload & { role?: string };
-//     console.log("Token decoded successfully:", decoded);
-//     return { user: decoded };
-//   } catch (error) {
-//     console.error("Token verification failed:", error);
-//     return NextResponse.json(
-//       { message: "Unauthorized: Invalid or expired token" },
-//       { status: 401 }
-//     );
-//   }
-// }
+  try {
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const { payload } = await jwtVerify(token, secret);
+    console.log("Token decoded successfully:", payload);
+    const decoded = payload as { [key: string]: any; role: string };
+    return { user: decoded };
+  } catch (error) {
+    console.error("Token verification failed:", error);
+    return null;
+  }
+}
 
-// export async function isAdminOrCoordinator(
-//   user: jwt.JwtPayload & { role?: string }
-// ): Promise<boolean> {
-//   const { role } = user;
-//   if (role === "admin" || role === "coordinator") {
-//     return true;
-//   }
-//   return false;
-// }
+// Check if the user has the admin or coordinator role
+export async function isAdminOrCoordinator(user: {
+  [key: string]: any;
+  role: string;
+}): Promise<boolean> {
+  const { role } = user;
+  return role === "admin" || role === "coordinator";
+}
 
+// Middleware to handle authentication and authorization
 export async function middleware(req: NextRequest) {
   const path = req.nextUrl.pathname;
+
+  // Define public paths
   const isPublicPath =
     path === "/login" || path === "/signup" || path === "/verifyemail";
 
-  const token = req.cookies.get("token")?.value || "";
-
-  if (isPublicPath && token) {
-    return NextResponse.redirect(new URL("/clubs", req.nextUrl));
+  // Allow access to public paths
+  if (isPublicPath) {
+    const token = req.cookies.get("token")?.value || "";
+    if (token) {
+      return NextResponse.redirect(new URL("/clubs", req.nextUrl));
+    }
+    return NextResponse.next();
   }
 
-  if (!isPublicPath && !token) {
+  // Authenticate the user for private paths
+  const authResponse = await authenticate(req);
+  if (!authResponse) {
+    console.log("Authentication failed.");
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 
-  // const authResponse = await authenticate(req);
-  // if (authResponse instanceof NextResponse) {
-  //   console.log("Authentication failed.");
-  //   return authResponse;
-  // }
+  // Restrict access to admin/coordinator paths
+  const restrictedPaths = ["/api/clubs", "/api/posts", "/api/events"];
+  if (restrictedPaths.some((p) => path.startsWith(p))) { 
+    const authorized = await isAdminOrCoordinator(authResponse.user);
+    if (!authorized) {
+      console.log("Authorization failed.");
+      return NextResponse.json(
+        { message: "Forbidden: You do not have access to this resource" },
+        { status: 403 }
+      );
+    }
+  }
 
-  // const { user } = authResponse;
-
-  // const roleResponse = await isAdminOrCoordinator(user);
-  // if (roleResponse instanceof NextResponse) {
-  //   console.log("Authorization failed.");
-  //   return roleResponse;
-  // }
-
+  // Allow access for authenticated users
   console.log(
     "User authenticated and authorized. Proceeding to the requested route."
   );
@@ -85,11 +86,7 @@ export const config = {
     "/api/clubs/:path*",
     "/api/posts/:path*",
     "/api/events/:path*",
-    "/",
-    "/login",
-    "/logout",
-    "/signup",
-    "/verifyemail",
     "/clubs",
+    "/",
   ],
 };

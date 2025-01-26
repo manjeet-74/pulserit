@@ -5,7 +5,7 @@ import Footer from "@/components/Footer"
 export default function Club({ params }: { params: IClub }) {
     return (
         <div>
-            <div>
+            <div className="flex flex-col justify-between">
                 <Header />
                 <Footer />
             </div>

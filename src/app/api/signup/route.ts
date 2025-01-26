@@ -1,9 +1,9 @@
-import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+// import jwt from "jsonwebtoken";
+import { SignJWT } from "jose";
 import UserBase from "@/models/UserBase";
 import { connectDB } from "@/config/db";
 import { NextRequest, NextResponse } from "next/server";
-
-const JWT_SECRET = process.env.JWT_SECRET || "your_jwt_secret";
 
 connectDB();
 
@@ -21,21 +21,32 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const newUser = new UserBase({ name, email, password, role });
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = new UserBase({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    });
     await newUser.save();
 
-    const token = jwt.sign(
-      { id: newUser._id, role: newUser.role },
-      JWT_SECRET,
-      { expiresIn: "1h" }
-    );
+    // const token = jwt.sign(
+    //   { id: newUser._id, role: newUser.role },
+    //   JWT_SECRET,
+    //   { expiresIn: "1h" }
+    // );
+
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+    const token = await new SignJWT({ id: newUser._id, role: newUser.role })
+      .setProtectedHeader({ alg: "HS256" })
+      .setExpirationTime("1h")
+      .sign(secret);
 
     return NextResponse.json(
       { message: "User created successfully", token },
       { status: 201 }
     );
-
-    return NextResponse.json({ message: "Route not found" }, { status: 404 });
   } catch (error: any) {
     console.error("Error:", error);
     return NextResponse.json(

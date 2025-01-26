@@ -9,14 +9,39 @@ import { Box, Button } from "@chakra-ui/react";
 import Testimonials from "@/components/Testismonial";
 import ContactUs from "@/components/ContactUs";
 import Footer from "@/components/Footer";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Clubs() {
+    const [user, setUser] = useState({
+        name: "John Doe",
+        email: "s@g.c",
+        role: "admin"
+    });
+
+    const getUserDetails = async () => {
+        try {
+            console.log("Call to /api/user");
+            const res = await axios.get("/api/user");
+            console.log(res.data);
+            setUser(res.data.data);
+        } catch (error: any) {
+            console.log("~~~~~~~~~~~~~~ Error ~~~~~~~~~~~~~~");
+            console.log(error.message);
+        }
+    };
+
+    useEffect(() => {
+        getUserDetails();
+    }, []);
+
     return (
         <div className=" bg-white p-4">
             <Header />
+            <h1 className="text-black"> {`Name: ${user.name}, Role: ${user.role} `}</h1>
             <Banner />
             <hr />
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center text-black">
                 <h1 className="text-black my-4 mb-4 text-4xl">List of clubs</h1>
                 <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                     <Card />
