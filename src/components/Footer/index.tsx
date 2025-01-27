@@ -2,7 +2,7 @@ import { Button, Input } from "@chakra-ui/react";
 
 const Footer = () => {
     return (
-        <div className="flex flex-col text-white bg-black p-16 rounded-lg">
+        <div className="flex flex-col text-white bg-black p-16 rounded-2xl mt-8">
             {/* Row 1  */}
             <div className="flex justify-between">
                 <span>PulseRit</span>

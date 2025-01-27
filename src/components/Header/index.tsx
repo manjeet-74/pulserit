@@ -46,7 +46,7 @@ export default function Example() {
 
 
   return (
-    <header className="bg-white">
+    <header className="bg-white shadow-lg">
       <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
         <div className="flex lg:flex-1">
           <Link href="/clubs" className="-m-1.5 p-1.5">
@@ -111,9 +111,9 @@ export default function Example() {
           <a href="#" className="text-sm/6 font-semibold text-gray-900">
             Features
           </a>
-          <a href="#" className="text-sm/6 font-semibold text-gray-900">
-            Marketplace
-          </a>
+          <Link href="/blogs" className="text-sm/6 font-semibold text-gray-900">
+            Blogs
+          </Link>
           <a href="#" className="text-sm/6 font-semibold text-gray-900">
             Company
           </a>
@@ -180,12 +180,12 @@ export default function Example() {
                 >
                   Features
                 </a>
-                <a
-                  href="#"
+                <Link
+                  href="/blogs"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
-                  Marketplace
-                </a>
+                  Blogs
+                </Link>
                 <a
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
