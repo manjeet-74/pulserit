@@ -11,6 +11,9 @@ import ContactUs from "@/components/ContactUs";
 import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Link from "next/link";
+import TeamCard from "@/components/TeamCard";
+import Team from "@/components/Team";
 
 export default function Clubs() {
     const [user, setUser] = useState({
@@ -65,12 +68,14 @@ export default function Clubs() {
                     {/* Render club cards dynamically */}
                     {clubs.length > 0 ? (
                         clubs.map((club) => (
-                            <Card
-                                key={club._id}
-                                clubName={club.name}
-                                description={club.description}
-                                image={club.logo}
-                            />
+                            <Link href="/clubs/[id]" as={`/clubs/${club._id}`} key={club._id}>
+                                <Card
+                                    key={club._id}
+                                    clubName={club.name}
+                                    description={club.description}
+                                    image={club.logo}
+                                />
+                            </Link>
                         ))
                     ) : (
                         <p>Loading clubs...</p>
@@ -113,22 +118,7 @@ export default function Clubs() {
             </div>
 
             {/* Team  */}
-            <div className="flex space-x-6 flex-start items-center mx-4 mt-4">
-                <h1 className="bg-pulserit_color text-black text-3xl 
-                    rounded-xl px-4 font-aptos">Team</h1>
-                <p className="text-black font-aptos w-1/2">Meet the skilled and experienced
-                    team behind our successful digital marketing strategies</p>
-            </div>
-            <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                <Card />
-                <Card />
-                <Card />
-                <Card />
-            </div>
-            <div className="flex justify-end text-black p-4">
-                <Button className="bg-black text-white 
-            p-4 rounded-xl">See all team</Button>
-            </div>
+            <Team />
 
             {/* Testimonial  */}
             <div className="flex space-x-6 flex-start items-center mx-4 mt-4">
