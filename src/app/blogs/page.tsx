@@ -5,6 +5,12 @@ import Header from "@/components/Header";
 import { useEffect, useState } from "react";
 
 export default function Page() {
+    const imageLink = "https://images.unsplash.com/photo-1736077722346-31ba59414728?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+
+    const sendEmail = () => {
+        console.log("Send email");
+    }
+
     return (
         <>
             <Header />
@@ -16,12 +22,10 @@ export default function Page() {
                 />
                 {/* Our impact in numbers */}
                 <div className="my-6 border-2 border-balck rounded-2xl p-6">
-                    <div className="my-6 flex space-x-6 flex-start items-center mx-4 mt-4">
-                        <h1 className="bg-pulserit_color text-black 
-                            rounded-xl px-4 font-aptos mb-6">Our impact in numbers</h1>
-                        <p className="text-black font-aptos w-1/2">We have been able to achieve the following
-                            milestones</p>
-                    </div>
+                    <SubHeading
+                        title="Our impact in numbers"
+                        description="We have been able to achieve the following milestones"
+                    />
                     <div className="flex">
                         <div className="flex-1 p-4 border-t-4 border-black rounded-2xl">
                             <h2 className="text-2xl font-aptos">1000+</h2>
@@ -47,13 +51,11 @@ export default function Page() {
                 </div>
                 <hr />
                 {/* Our journey */}
-                <div className="flex flex-col my-6">
-                    <div className="my-6 flex space-x-6 flex-start items-center mx-4 mt-4">
-                        <h1 className="bg-pulserit_color text-black 
-                            rounded-xl px-4 font-aptos mb-6">Our impact in numbers</h1>
-                        <p className="text-black font-aptos w-1/2">We have been able to achieve the following
-                            milestones</p>
-                    </div>
+                <div className="flex flex-col my-6 border-grey border-2 rounded-2xl p-6">
+                    <SubHeading
+                        title="Our Journey"
+                        description="We have been able to achieve the following milestones"
+                    />
                     <div className={`flex flex-col items-center`}>
                         {[2019, 2020, 2021, 2022, 2023].map((year, index) => {
                             return (
@@ -70,13 +72,11 @@ export default function Page() {
                 </div>
                 <hr />
                 {/* Core Values */}
-                <div className="flex flex-col my-6">
-                    <div className="my-6 flex space-x-6 flex-start items-center mx-4 mt-4">
-                        <h1 className="bg-pulserit_color text-black 
-                            rounded-xl px-4 font-aptos mb-6">Our impact in numbers</h1>
-                        <p className="text-black font-aptos w-1/2">We have been able to achieve the following
-                            milestones</p>
-                    </div>
+                <div className="flex flex-col my-6 border-grey border-2 rounded-2xl p-6">
+                    <SubHeading
+                        title="Our Core Values"
+                        description="Our core values are the guiding principles that help us to deliver value to our clients and achieve success."
+                    />
                     <div className="grid grid-cols-2 gap-6">
                         {
                             ["Client Success First", "Innovation", "Collaboration", "Integrity"].map((value, index) => {
@@ -99,7 +99,47 @@ export default function Page() {
                     image="https://images.unsplash.com/photo-1737453642091-804a18d5deaa?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 />
 
+                {/* Awards and Recognition */}
+                <div className="flex flex-col">
+                    <SubHeading
+                        title="Awards and Recognition"
+                        description="We have been able to achieve the following milestones"
+                    />
+                    <div className="grid grid-cols-4 gap-6">
+                        <AwardsCard
+                            title="Best Club of the Year"
+                            description="We have been able to achieve the following milestones and we have been able to achieve the following milestones"
+                            image="https://images.unsplash.com/photo-1737453642091-804a18d5deaa?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        />
+                        <AwardsCard
+                            title="Best Club of the Year"
+                            description="We have been able to achieve the following milestones and we have been able to achieve the following milestones"
+                            image="https://images.unsplash.com/photo-1737453642091-804a18d5deaa?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        />
+                        <AwardsCard
+                            title="Best Club of the Year"
+                            description="We have been able to achieve the following milestones and we have been able to achieve the following milestones"
+                            image="https://images.unsplash.com/photo-1737453642091-804a18d5deaa?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        />
+                        <AwardsCard
+                            title="Best Club of the Year"
+                            description="We have been able to achieve the following milestones and we have been able to achieve the following milestones"
+                            image="https://images.unsplash.com/photo-1737453642091-804a18d5deaa?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        />
+                    </div>
+                </div>
 
+                {/* Join Our Club */}
+                <div className="my-6 flex items-center p-6 bg-pulserit_color border-2 border-black border-b-4 rounded-2xl">
+                    <div className="flex flex-col w-2/3">
+                        <h1 className="text-2xl font-aptos font-bold my-4">Join our Club</h1>
+                        <p className="font-aptos mt-4">
+                            We are always looking for talented individuals to join our team. If you are passionate about web development and design, then we would love to hear from you.
+                        </p>
+                        <button onClick={sendEmail} className="bg-black text-white mt-2 w-24 rounded-lg p-2">Apply Now</button>
+                    </div>
+                    <img src={imageLink} alt="award" className="w-1/3 my-4 rounded-2xl" />
+                </div>
                 <Footer />
             </div>
         </>
@@ -115,9 +155,9 @@ interface BlogCardProps {
 
 function BlogCard({ year, title, description, align }: BlogCardProps) {
     return (
-        <div className={`flex space-x-5 mt-5 ${align} w-3/4`}>
+        <div className={`flex space-x-5 mt-5 lg:${align} lg:w-3/4`}>
             <h1 className="text-4xl">{year}</h1>
-            <div className={`flex w-1/3 flex-col bg-black rounded-2xl p-6 text-white`}>
+            <div className={`flex lg:w-1/3 flex-col bg-black rounded-2xl p-6 text-white`}>
                 <h1 className="text-2xl font-aptos mb-4">{title}</h1>
                 <p className="font-aptos">{description}</p>
             </div>
@@ -161,3 +201,35 @@ function PositiveQuoteCard({ quote, by, image }: PositiveQuoteCardProps) {
         </div>
     )
 }
+
+// Awardds and Recognition Card
+interface AwardsCardProps {
+    title: string;
+    description: string;
+    image: string;
+}
+function AwardsCard({ title, description, image }: AwardsCardProps) {
+    return (
+        <div className="flex flex-col items-center p-6 bg-grey rounded-2xl">
+            <img src={image} alt="award" className="w-1/2 my-4" />
+            <h1 className="text-2xl font-aptos font-bold my-4">{title}</h1>
+            <p className="font-aptos mt-4">{description}</p>
+        </div>
+    )
+}
+
+//subheading with description
+interface SubHeadingProps {
+    title: string;
+    description: string;
+}
+function SubHeading({ title, description }: SubHeadingProps) {
+    return (
+        <div className="my-6 flex space-x-6 flex-start items-center mx-4">
+            <h1 className="bg-pulserit_color text-black 
+                            rounded-xl px-4 font-aptos mb-6">{title}</h1>
+            <p className="text-black font-aptos w-1/2">{description}</p>
+        </div>
+    )
+}
+
