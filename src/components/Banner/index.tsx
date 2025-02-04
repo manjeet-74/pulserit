@@ -50,11 +50,12 @@ export default function Example() {
                     </button>
                 </div>
             </div>
-            <div className=" py-32 bg-white ">
-                <div className='text-black bg-pulserit_color h-20 flex 
-                    justify-center items-center'>
-                    <h1 className='text-6xl font-bold'>PulseRIT</h1>
+            <div className=" py-32 bg-white flex flex-col items-center justify-center">
+                <div className='text-black bg-pulserit_color flex 
+                    justify-center items-center py-6 w-full'>
+                    <h1 className='text-8xl font-bold'>PulseRIT</h1>
                 </div>
+                <p className='text-black text-xl mt-2'>Unite, Explore, Excel- your Gatewway to College Communities!</p>
             </div>
         </div>
     )

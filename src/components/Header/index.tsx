@@ -50,7 +50,7 @@ export default function Example() {
       <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
         <div className="flex lg:flex-1">
           <Link href="/clubs" className="-m-1.5 p-1.5">
-            <span className="text-black font-bold text-2xl">PulseRit</span>
+            <span className="text-black font-bold text-xl py-6">PulseRit</span>
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -108,11 +108,11 @@ export default function Example() {
             </PopoverPanel>
           </Popover>
 
-          <a href="#" className="text-sm/6 font-semibold text-gray-900">
-            Features
+          <a href="/services" className="text-sm/6 font-semibold text-gray-900">
+            Services
           </a>
-          <Link href="/blogs" className="text-sm/6 font-semibold text-gray-900">
-            Blogs
+          <Link href="/about" className="text-sm/6 font-semibold text-gray-900">
+            About Us
           </Link>
           <a href="#" className="text-sm/6 font-semibold text-gray-900">
             Company
@@ -175,10 +175,10 @@ export default function Example() {
                   </DisclosurePanel>
                 </Disclosure>
                 <a
-                  href="#"
+                  href="/services"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
-                  Features
+                  Services
                 </a>
                 <Link
                   href="/blogs"

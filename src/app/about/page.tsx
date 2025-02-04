@@ -3,6 +3,7 @@ import ClubDetailsCard from "@/components/ClubDetailsCard";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { useEffect, useState } from "react";
+import SubHeading from "@/components/SubHeading";
 
 export default function Page() {
     const imageLink = "https://images.unsplash.com/photo-1736077722346-31ba59414728?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
@@ -217,19 +218,3 @@ function AwardsCard({ title, description, image }: AwardsCardProps) {
         </div>
     )
 }
-
-//subheading with description
-interface SubHeadingProps {
-    title: string;
-    description: string;
-}
-function SubHeading({ title, description }: SubHeadingProps) {
-    return (
-        <div className="my-6 flex space-x-6 flex-start items-center mx-4">
-            <h1 className="bg-pulserit_color text-black 
-                            rounded-xl px-4 font-aptos mb-6">{title}</h1>
-            <p className="text-black font-aptos w-1/2">{description}</p>
-        </div>
-    )
-}
-

@@ -12,7 +12,6 @@ import Footer from "@/components/Footer";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
-import TeamCard from "@/components/TeamCard";
 import Team from "@/components/Team";
 
 export default function Clubs() {
