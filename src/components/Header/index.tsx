@@ -114,19 +114,19 @@ export default function Example() {
           <Link href="/about" className="text-sm/6 font-semibold text-gray-900">
             About Us
           </Link>
-          <a href="#" className="text-sm/6 font-semibold text-gray-900">
-            Company
+          <a href="/blog" className="text-sm/6 font-semibold text-gray-900">
+            Blog
           </a>
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end space-x-6">
           <Link href="/clubs/create" className="text-sm/6 font-semibold text-gray-900">
             Add a club <span aria-hidden="true">&rarr;</span>
           </Link>
-          <div onClick={handleLogout}
+          <Link href="/login" onClick={handleLogout}
             className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
           >
             Log out
-          </div> ̰
+          </Link> ̰
           <Link href="/login" className="text-sm/6 font-semibold text-gray-900">
             Log in <span aria-hidden="true">&rarr;</span>
           </Link>
@@ -181,24 +181,24 @@ export default function Example() {
                   Services
                 </a>
                 <Link
-                  href="/blogs"
+                  href="/about"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
-                  Blogs
+                  About Us
                 </Link>
                 <a
-                  href="#"
+                  href="/blog"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
-                  Company
+                  Blog
                 </a>
               </div>
               <div className="py-6">
-                <div onClick={handleLogout}
+                <Link href="/login" onClick={handleLogout}
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Log out
-                </div> ̰
+                </Link> ̰
                 <Link href="/login"
                   className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
